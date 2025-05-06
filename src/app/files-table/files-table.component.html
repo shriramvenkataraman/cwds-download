@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="header">
+        <div class="selections">
+            <input
+                type="checkbox"
+                [checked]="allSelected"
+                [indeterminate]="someSelected"
+                (change)="toggleSelectAll()"
+            >
+            <span>{{selectionText}}</span>
+        </div>
+        <button
+            class="download-button"
+            (click)="downloadSelected()"
+            [disabled]="selectedCount === 0"
+        >
+            Download Selected
+        </button>
+    </div>
+
+    <table class="file-table">
+        <thead>
+            <tr>
+                <th class="checkbox-column"></th>
+                <th class="name-column">Name</th>
+                <th class="device-column">Device</th>
+                <th class="path-column">Path</th>
+                <th class="status-column">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="let file of files"
+                [class.selected]="file.selected"
+                [class.disabled]="isDownloadDisabled(file)"
+                (click)="toggleFileSelection(file)"
+            >
+                <td class="checkbox-column">
+                    <input
+                        type="checkbox"
+                        [checked]="file.selected"
+                        [disabled]="isDownloadDisabled(file)"
+                    >
+                </td>
+                <td class="name-column">{{file.name}}</td>
+                <td class="device-column">{{file.device}}</td>
+                <td class="path-column">{{file.path}}</td>
+                <td class="status-column status" [class.available]="file.status==='available'">{{file.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
